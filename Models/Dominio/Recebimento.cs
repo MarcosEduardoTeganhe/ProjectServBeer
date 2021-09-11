@@ -11,7 +11,6 @@ namespace ProjectServBeer.Models.Dominio
     [Table("Recebimento")]
     public class Recebimento
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID")]
@@ -19,6 +18,7 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "Serviço")]
         public Servico servico { get; set; }
+        public int servicoID { get; set; }
 
         [Display(Name = "Valor")]
         [DisplayFormat(DataFormatString = "{0:C2}")]

@@ -19,7 +19,9 @@ namespace ProjectServBeer.Models.Dominio
         [StringLength(35, ErrorMessage = "Tamanho do nome CLIENTE esta inválido", MinimumLength = 5)]
         [Required(ErrorMessage = "Campo nome CLIENTE é obrigatório")]
         [Display(Name = "Nome do Cliente")]
-        public string nome { get; set; }
+        public Cliente cliente { get; set; }
+        public int clienteID { get; set; }
+
 
         [Display(Name = "Valor")]
         [DisplayFormat(DataFormatString = "{0:C2}")]
@@ -31,9 +33,10 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "Funcionario")]
         public Funcionario funcionario { get; set; }
+        public int funcionarioID { get; set; }
 
-        [Display(Name = "Cliente")]
-        public Cliente cliente { get; set; }
-        public ICollection<Recebimento> servicos { get; set; }
+        public ICollection<ItensServicos> itensservicos { get; set; }
+        public ICollection<Recebimento> servicorecebido { get; set; }
+       
     }
 }

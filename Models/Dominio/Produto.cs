@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace ProjectServBeer.Models.Dominio
 {
-
     [Table("Produto")]
     public class Produto
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID")]
@@ -24,9 +22,11 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "Descrição do Produto")]
         public Categoria tipo_prod { get; set; }
+        public int categoriaID { get; set; }
 
         [Display(Name = "Nome do Fornecedor")]
         public Fornecedor fornecedor { get; set; }
+        public int fornecedorID { get; set; }
 
         [Display(Name = "Quantidade")]
         [DisplayFormat(DataFormatString = "{0:F1}")]

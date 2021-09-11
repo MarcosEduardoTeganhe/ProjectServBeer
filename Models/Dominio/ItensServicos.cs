@@ -25,8 +25,10 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "Produto")]
         public Produto produto { get; set; }
+        public int produtoID { get; set; }
 
         [Display(Name = "Servico")]
         public Servico servico { get; set; }
+        public int servicoID { get; set; }
     }
 }

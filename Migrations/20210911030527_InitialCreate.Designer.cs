@@ -10,7 +10,7 @@ using ProjectServBeer.Models;
 namespace ProjectServBeer.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20210909233204_InitialCreate")]
+    [Migration("20210911030527_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,11 +29,13 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("descricao")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Categorias");
+                    b.ToTable("Categoria");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Cliente", b =>
@@ -44,17 +46,26 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("cpf")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("nome_cliente")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
-                    b.Property<int>("telefone")
-                        .HasColumnType("int");
+                    b.Property<string>("telefone")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Clientes");
+                    b.HasIndex("cpf")
+                        .IsUnique();
+
+                    b.ToTable("Cliente");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Fornecedor", b =>
@@ -65,20 +76,27 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("cnpj")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(18)
+                        .HasColumnType("nvarchar(18)");
 
                     b.Property<string>("email")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<string>("empresa")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<string>("telefone")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Fornecedores");
+                    b.ToTable("Fornecedor");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Funcionario", b =>
@@ -89,17 +107,23 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("cpf")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(14)
+                        .HasColumnType("nvarchar(14)");
 
                     b.Property<string>("nome")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
 
                     b.Property<string>("senha")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("id");
 
-                    b.ToTable("Funcionarios");
+                    b.ToTable("Funcionario");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.ItensServicos", b =>
@@ -109,25 +133,25 @@ namespace ProjectServBeer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("produtoid")
+                    b.Property<int>("produtoID")
                         .HasColumnType("int");
 
                     b.Property<int>("quantidade")
+                        .HasColumnType("Int");
+
+                    b.Property<int>("servicoID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("servicoid")
-                        .HasColumnType("int");
-
-                    b.Property<float>("valor")
-                        .HasColumnType("real");
+                    b.Property<double>("valor")
+                        .HasColumnType("float");
 
                     b.HasKey("id");
 
-                    b.HasIndex("produtoid");
+                    b.HasIndex("produtoID");
 
-                    b.HasIndex("servicoid");
+                    b.HasIndex("servicoID");
 
-                    b.ToTable("ItensVendas");
+                    b.ToTable("ItemServicos");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Pagamento", b =>
@@ -138,22 +162,22 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("dataEmissao")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
                     b.Property<DateTime>("dataVencimento")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
-                    b.Property<int?>("fornecedorid")
+                    b.Property<int>("fornecedorID")
                         .HasColumnType("int");
 
-                    b.Property<float>("valor")
-                        .HasColumnType("real");
+                    b.Property<double>("valor")
+                        .HasColumnType("float");
 
                     b.HasKey("id");
 
-                    b.HasIndex("fornecedorid");
+                    b.HasIndex("fornecedorID");
 
-                    b.ToTable("Pagamentos");
+                    b.ToTable("Pagamento");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Produto", b =>
@@ -163,28 +187,29 @@ namespace ProjectServBeer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("fornecedorid")
+                    b.Property<int>("categoriaID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("fornecedorID")
                         .HasColumnType("int");
 
                     b.Property<int>("nome_prod")
+                        .HasMaxLength(35)
                         .HasColumnType("int");
 
                     b.Property<int>("quantidade")
-                        .HasColumnType("int");
+                        .HasColumnType("Int");
 
-                    b.Property<int?>("tipo_prodid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("valor_prod")
-                        .HasColumnType("int");
+                    b.Property<double>("valor_prod")
+                        .HasColumnType("float");
 
                     b.HasKey("id");
 
-                    b.HasIndex("fornecedorid");
+                    b.HasIndex("categoriaID");
 
-                    b.HasIndex("tipo_prodid");
+                    b.HasIndex("fornecedorID");
 
-                    b.ToTable("Produtos");
+                    b.ToTable("Produto");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Recebimento", b =>
@@ -195,19 +220,19 @@ namespace ProjectServBeer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("data_recebimento")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("Date");
 
-                    b.Property<int?>("servicoid")
+                    b.Property<int>("servicoID")
                         .HasColumnType("int");
 
-                    b.Property<float>("valor")
-                        .HasColumnType("real");
+                    b.Property<double>("valor")
+                        .HasColumnType("float");
 
                     b.HasKey("id");
 
-                    b.HasIndex("servicoid");
+                    b.HasIndex("servicoID");
 
-                    b.ToTable("Recebimentos");
+                    b.ToTable("Recebimento");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Servico", b =>
@@ -217,39 +242,40 @@ namespace ProjectServBeer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("clienteid")
+                    b.Property<int>("clienteID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("funcionarioid")
+                    b.Property<int>("funcionarioID")
                         .HasColumnType("int");
 
-                    b.Property<string>("nome")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<double>("valor")
+                        .HasColumnType("float");
 
-                    b.Property<float>("valor")
-                        .HasColumnType("real");
-
-                    b.Property<float>("valor_promocao")
-                        .HasColumnType("real");
+                    b.Property<double>("valor_promocao")
+                        .HasColumnType("float");
 
                     b.HasKey("id");
 
-                    b.HasIndex("clienteid");
+                    b.HasIndex("clienteID");
 
-                    b.HasIndex("funcionarioid");
+                    b.HasIndex("funcionarioID");
 
-                    b.ToTable("Servicos");
+                    b.ToTable("Servico");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.ItensServicos", b =>
                 {
                     b.HasOne("ProjectServBeer.Models.Dominio.Produto", "produto")
                         .WithMany("produtos")
-                        .HasForeignKey("produtoid");
+                        .HasForeignKey("produtoID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("ProjectServBeer.Models.Dominio.Servico", "servico")
-                        .WithMany()
-                        .HasForeignKey("servicoid");
+                        .WithMany("itensservicos")
+                        .HasForeignKey("servicoID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("produto");
 
@@ -260,20 +286,26 @@ namespace ProjectServBeer.Migrations
                 {
                     b.HasOne("ProjectServBeer.Models.Dominio.Fornecedor", "fornecedor")
                         .WithMany("fornecedores")
-                        .HasForeignKey("fornecedorid");
+                        .HasForeignKey("fornecedorID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("fornecedor");
                 });
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Produto", b =>
                 {
-                    b.HasOne("ProjectServBeer.Models.Dominio.Fornecedor", "fornecedor")
-                        .WithMany("fornecedor")
-                        .HasForeignKey("fornecedorid");
-
                     b.HasOne("ProjectServBeer.Models.Dominio.Categoria", "tipo_prod")
                         .WithMany("categorias")
-                        .HasForeignKey("tipo_prodid");
+                        .HasForeignKey("categoriaID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("ProjectServBeer.Models.Dominio.Fornecedor", "fornecedor")
+                        .WithMany("fornecedor")
+                        .HasForeignKey("fornecedorID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("fornecedor");
 
@@ -283,8 +315,10 @@ namespace ProjectServBeer.Migrations
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Recebimento", b =>
                 {
                     b.HasOne("ProjectServBeer.Models.Dominio.Servico", "servico")
-                        .WithMany("servicos")
-                        .HasForeignKey("servicoid");
+                        .WithMany("servicorecebido")
+                        .HasForeignKey("servicoID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("servico");
                 });
@@ -293,11 +327,15 @@ namespace ProjectServBeer.Migrations
                 {
                     b.HasOne("ProjectServBeer.Models.Dominio.Cliente", "cliente")
                         .WithMany("clientes")
-                        .HasForeignKey("clienteid");
+                        .HasForeignKey("clienteID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("ProjectServBeer.Models.Dominio.Funcionario", "funcionario")
                         .WithMany("funcionarios")
-                        .HasForeignKey("funcionarioid");
+                        .HasForeignKey("funcionarioID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.Navigation("cliente");
 
@@ -333,7 +371,9 @@ namespace ProjectServBeer.Migrations
 
             modelBuilder.Entity("ProjectServBeer.Models.Dominio.Servico", b =>
                 {
-                    b.Navigation("servicos");
+                    b.Navigation("itensservicos");
+
+                    b.Navigation("servicorecebido");
                 });
 #pragma warning restore 612, 618
         }

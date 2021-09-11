@@ -23,13 +23,12 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "CPF")]
         [StringLength(14, ErrorMessage = "Não aceita CPF com mais de 14 dígitos")]
-        [Remote("ValidarCPF", "Clientes", ErrorMessage = "CPF Inválido!!!")]
         public string cpf { get; set; }
 
         [Display(Name = "Telefone")]
         [StringLength(15, ErrorMessage = "Telefone maior que 15 caracteres")]
-        [RegularExpression("^/([1-9]{2}/) (?:[2-8]|9[1-9])[0-9]{3}/-[0-9]{4}$", ErrorMessage = "Telefone invalido")]
-        public int telefone { get; set; }
+        [Required(ErrorMessage = "Campo Telefone é obrigatório")]
+        public string telefone { get; set; }
         public ICollection<Servico> clientes { get; set; }
     }
 }

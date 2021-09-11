@@ -10,7 +10,6 @@ namespace ProjectServBeer.Models.Dominio
     [Table("Pagamento")]
     public class Pagamento
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "ID")]
@@ -18,6 +17,7 @@ namespace ProjectServBeer.Models.Dominio
 
         [Display(Name = "Fornecedor")]
         public Fornecedor fornecedor { get; set; }
+        public int fornecedorID { get; set; }
 
         [Display(Name = "Data de Emissao")]
         public DateTime dataEmissao { get; set; }
